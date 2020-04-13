@@ -2,6 +2,7 @@ const express = require('express');
 const userRoute = require("./routes/users");
 const postRoute = require("./routes/post");
 require('express-async-errors');
+require('dotenv').config();
 require("./db");
 const app =express();
 const port=3000;
@@ -12,9 +13,17 @@ app.use(express.urlencoded());
 app.use("/user",userRoute);
 app.use("/post",postRoute);
 
+
+app.use((req,res,next)=>{
+    res.json({
+        "request url":req.url,
+        method: req.method,
+        "current time":Date.now()
+    })
+})
+
 app.use((err,req,res,next) => {
     console.log(err)
-    // res.json(err)
     const statusCode= err.statusCode || 500;
     // if(err.statusCode >=500){
     //     return res.status(statusCode).json({

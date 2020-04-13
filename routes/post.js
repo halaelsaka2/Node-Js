@@ -14,7 +14,7 @@ const {
 
 
 module.exports = router;
-router.get("/", async (req, res, next) => {
+router.get("", authenticationmiddleWare,async (req, res, next) => {
     const limit = req.query.limit || 10;
     const skip = req.query.skip || 0;
 
@@ -23,7 +23,7 @@ router.get("/", async (req, res, next) => {
 });
 
 
-router.post('/', async (req, res, next) => {
+router.post('/', authenticationmiddleWare,async (req, res, next) => {
 
     const {
         userId,
@@ -46,14 +46,9 @@ router.patch('/:id', authenticationmiddleWare,
     ownerAuthorizationMiddleWare,
     async (req, res, next) => {
 
-        const {
-            id
-        } = req.params;
-        const {
-            title,
-            body,
-            tags
-        } = req.body;
+        const {id} = req.params;
+        const {title,body,tags} = req.body;
+
         const post = await Post.findByIdAndUpdate(id, {
             title,
             body,
@@ -69,7 +64,8 @@ router.patch('/:id', authenticationmiddleWare,
         })
     })
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id',authenticationmiddleWare,
+    ownerAuthorizationMiddleWare, async (req, res, next) => {
     const {
         id
     } = req.params;

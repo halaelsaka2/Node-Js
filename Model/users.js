@@ -4,7 +4,9 @@ const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const util = require('util');
-const CustomError = require('../helpers/customError')
+const CustomError = require('../helpers/customError');
+require('dotenv').config();
+
 const saltRounds = 10;
 const jwtSecret = process.env.JWT_SECRET
 
